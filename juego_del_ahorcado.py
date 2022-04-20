@@ -3,7 +3,6 @@ import random
 
 def read():
     list_of_words = []
-    new_word = []
     
     # lectura archivo
     with open("./archivos/data.txt", "r", encoding="utf-8") as f:
@@ -12,54 +11,49 @@ def read():
     # seleccion de una palabra
     word_choice = random.choice(list_of_words)
     print(word_choice)  # comentar esta linea al final
-    word_long = len(word_choice)
-    spaces = []
-    # imprime __ segun longitud de la palabra
-    for e in range(1, word_long):
-        spaces.append("__")
-    print(spaces)
-    
-    status = 1
-    while status != 0:
+    return word_choice
 
-        chosen_letter = input("\n Adivina la palabra. Ingresa una letra: ")
-
-        if chosen_letter == "x":
-            status = 0
-        else:
-            for i in word_choice:
-                if i == chosen_letter:
-                    new_word.append(chosen_letter)
-
-                else:
-                    new_word.append("__")
-        
-        new_word.pop()
-        
-        print("\n", new_word, "\n")
-
-
-
-
-
-#def contains_letter(word_choice):
     
 
 def main():
+    new_word = []
     print("""  
 ************************* JUEGO DEL AHORCADO *************************
             
-            Para salir del programa presiona x
+            Para salir del programa presiona la letra x
 
-**********************************************************************
-            """)
-    read()
+**********************************************************************""")
+
+    try:
+        word_choice = read()
+        word_long = len(word_choice)
+    
+        # imprime __ segun longitud de la palabra
+        print(len(word_choice)*"__ ")
+        
+        #word_choice = list(word_choice)
+        #print(word_choice)
+
+        status = 1
+        while status != 0:
+
+            chosen_letter = input("\n Adivina la palabra. Ingresa una letra: ")
+
+            if chosen_letter == "x":
+                status = 0
+            else:
+                for i, x in enumerate(word_choice):
+                    if x == chosen_letter:
+                        new_word[i] = chosen_letter
 
 
-''' if chosen_letter in word_choice:
-    print("Sí está")
-else:
-    print("No está") '''
+                print(len(word_choice)*"__ ")
+            
+            #new_word.pop()
+            
+            print(new_word)
+    except ValueError:
+        print("Debes ingresar una letra y nada más!")
 
 
 if __name__ == '__main__':
