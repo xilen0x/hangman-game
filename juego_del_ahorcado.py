@@ -1,5 +1,5 @@
 import random
-
+import os
 
 def read():
     list_of_words = []
@@ -7,51 +7,58 @@ def read():
     # lectura archivo
     with open("./archivos/data.txt", "r", encoding="utf-8") as f:
         for line in f:
-            list_of_words.append(line)
+            list_of_words.append(line.strip('\n'))
     # seleccion de una palabra
-    word_choice = random.choice(list_of_words)
+    word_choice = random.choice(list_of_words).upper()
     print(word_choice)  # comentar esta linea al final
     return word_choice
 
     
 
 def main():
-    new_word = []
-    print("""  
-************************* JUEGO DEL AHORCADO *************************
-            
-            Para salir del programa presiona la letra x
 
-**********************************************************************""")
+    print("""  
+    ************************* JUEGO DEL AHORCADO *************************
+            Para comenzar presiona: enter
+            Para salir del programa escribe: exit
+
+    **********************************************************************""")
 
     try:
-        word_choice = read()
-        word_long = len(word_choice)
+        word = read()
     
-        # imprime __ segun longitud de la palabra
-        print(len(word_choice)*"__ ")
-        
-        #word_choice = list(word_choice)
-        #print(word_choice)
+        word = list(word)
+        print(word)
+        p2 = ' __ ' * len(word)
+        p2 = p2.split()
+        print(p2)
+        lives = len(word)
+        print("lives: ", lives)
 
-        status = 1
-        while status != 0:
+        while word != p2:
 
-            chosen_letter = input("\n Adivina la palabra. Ingresa una letra: ")
+            letter = input("enter a letter: ").upper()
+            os.system("clear")
 
-            if chosen_letter == "x":
-                status = 0
+            if letter == 'exit':
+                break
+            elif letter in word and letter not in p2:
+                locations = [i for i, x in enumerate(word) if x == letter ]
+                #print("locations: ",locations)
+                for location in locations:
+                    p2[location] = letter
+                print(p2)
             else:
-                for i, x in enumerate(word_choice):
-                    if x == chosen_letter:
-                        new_word[i] = chosen_letter
+                lives -= 1
+                print("You have {} lives left".format(lives))
+                if lives == 0:
+                    break
+                    
+        if letter == 'exit':
+            print("Bye!")
+        else:
+            print('You LOST' if lives == 0 else 'You WON')
 
-
-                print(len(word_choice)*"__ ")
-            
-            #new_word.pop()
-            
-            print(new_word)
     except ValueError:
         print("Debes ingresar una letra y nada más!")
 
