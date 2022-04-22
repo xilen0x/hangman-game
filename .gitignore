@@ -1,2 +1,8 @@
 venv/
 archivos/
+archivos.py
+archivos2.py
+filtrando_datos.py
+lists_and_dicts.py
+primeros_100_al_cuadrado.py
+try_except_raise.py
